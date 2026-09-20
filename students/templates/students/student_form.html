@@ -1,0 +1,37 @@
+ <!-- student_form.html -->
+  {% extends 'base.html' %}
+
+  {% block content %}
+      <h1>{{ title }}</h1>
+
+      <form method="POST">
+          {% csrf_token %}
+
+          <!-- Display form errors -->
+          {% if form.errors %}
+              <div class="errors">
+                  <ul>
+                      {% for field, errors in form.errors.items %}
+                          {% for error in errors %}
+                              <li>{{ field }}: {{ error }}</li>
+                          {% endfor %}
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+
+          <!-- Render form fields -->
+          {% for field in form %}
+              <div class="form-group">
+                  {{ field.label_tag }}
+                  {{ field }}
+                  {% if field.help_text %}
+                      <small>{{ field.help_text }}</small>
+                  {% endif %}
+              </div>
+          {% endfor %}
+
+          <button type="submit">{{ button_text }}</button>
+          <a href="{% url 'students:student_list' %}">Cancel</a>
+      </form>
+  {% endblock %}

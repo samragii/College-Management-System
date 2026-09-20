@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% block title %}Student Details · Greenfield School{% endblock %}
+
+{% block content %}
+
+<!-- ===== Page content ===== -->
+<main>
+
+  <p>
+    <a href="{% url 'students:add_students' %}">&larr; Back to all students</a>
+  </p>
+
+  <div class="card card-pad" style="margin-top:16px;">
+
+    <div class="details-head">
+      <div>
+        <span class="stamp teal">STU-001</span>
+
+        <h1 style="font-family:var(--font-display); font-size:28px; margin:12px 0 4px;">
+          John Anderson
+        </h1>
+
+        <p style="color:var(--ink-soft); margin:0;">
+          Computer Science &middot; 1st Semester
+        </p>
+      </div>
+
+      <span class="pill active">Active</span>
+    </div>
+
+
+    <!-- ===== Student Details ===== -->
+    <div class="details-grid">
+
+      <div class="item">
+        <div class="k">Student ID</div>
+        <div class="v">STU-001</div>
+      </div>
+
+      <div class="item">
+        <div class="k">Department</div>
+        <div class="v">Computer Science</div>
+      </div>
+
+      <div class="item">
+        <div class="k">Semester</div>
+        <div class="v">1st Semester</div>
+      </div>
+
+      <div class="item">
+        <div class="k">Email</div>
+        <div class="v">john.anderson@greenfield.edu</div>
+      </div>
+
+      <div class="item">
+        <div class="k">Phone</div>
+        <div class="v">+1 555 010 1001</div>
+      </div>
+
+      <div class="item">
+        <div class="k">Enrollment Year</div>
+        <div class="v">2026</div>
+      </div>
+
+    </div>
+
+
+    <hr class="divider">
+
+
+    <!-- ===== Personal Information ===== -->
+    <div class="item">
+
+      <div class="k">Student Information</div>
+
+      <p style="margin-top:8px; max-width:70ch;">
+        John Anderson is a Computer Science student currently enrolled
+        in the first semester of the Fall 2026 academic term.
+      </p>
+
+    </div>
+
+
+    <hr class="divider">
+
+
+    <!-- ===== Enrolled Courses ===== -->
+    <div class="item">
+
+      <div class="k">Enrolled Courses</div>
+
+      <div class="table-wrap" style="margin-top:12px;">
+
+        <table class="catalog">
+
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Course</th>
+              <th>Department</th>
+              <th>Instructor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td data-label="Code">
+                <span class="stamp">CS-101</span>
+              </td>
+
+              <td data-label="Course" class="course-name">
+                Introduction to Programming
+              </td>
+
+              <td data-label="Department" class="course-dept">
+                Computer Science
+              </td>
+
+              <td data-label="Instructor">
+                Dr. Alan Whitfield
+              </td>
+
+              <td data-label="Status">
+                <span class="pill active">Enrolled</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td data-label="Code">
+                <span class="stamp">MAT-101</span>
+              </td>
+
+              <td data-label="Course" class="course-name">
+                Calculus I
+              </td>
+
+              <td data-label="Department" class="course-dept">
+                Mathematics
+              </td>
+
+              <td data-label="Instructor">
+                Mr. David Anderson
+              </td>
+
+              <td data-label="Status">
+                <span class="pill active">Enrolled</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td data-label="Code">
+                <span class="stamp">ENG-101</span>
+              </td>
+
+              <td data-label="Course" class="course-name">
+                Academic Writing
+              </td>
+
+              <td data-label="Department" class="course-dept">
+                English
+              </td>
+
+              <td data-label="Instructor">
+                Ms. Priya Nadar
+              </td>
+
+              <td data-label="Status">
+                <span class="pill active">Enrolled</span>
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===== Actions ===== -->
+    <div class="form-actions">
+
+      <a href="add-student.html" class="btn btn-primary">
+        Edit Student
+      </a>
+
+      <button
+        class="btn btn-danger"
+        data-delete="John Anderson">
+        Delete Student
+      </button>
+
+      <a href="{% url 'students:add_students' %}" class="btn btn-ghost">
+        Back to List
+      </a>
+
+    </div>
+
+  </div>
+
+</main>
+
+{% endblock %}

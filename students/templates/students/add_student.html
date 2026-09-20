@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Add Student{% endblock %}
+{% block page %}add-student{% endblock %}
+
+{% block content %}
+<main>
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">New entry</p>
+      <h1>Add a Student</h1>
+      <p class="lede">Fill in the details below to add a new student.</p>
+    </div>
+  </div>
+
+  <div class="card card-pad">
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label for="student_id">Student ID</label>
+          <input type="text" id="student_id" name="student_id"
+                 placeholder="e.g. STU-2026-001" required>
+        </div>
+
+        <div class="field">
+          <label for="first_name">First name</label>
+          <input type="text" id="first_name" name="first_name"
+                 placeholder="e.g. Emily" required>
+        </div>
+
+        <div class="field">
+          <label for="last_name">Last name</label>
+          <input type="text" id="last_name" name="last_name"
+                 placeholder="e.g. Carter" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email"
+                 placeholder="e.g. emily@example.com" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone"
+                 placeholder="e.g. 9812345678">
+        </div>
+
+        <div class="field">
+          <label for="date_of_birth">Date of birth</label>
+          <input type="date" id="date_of_birth" name="date_of_birth" required>
+        </div>
+
+        <div class="field">
+          <label for="department">Department</label>
+          <input type="text" id="department" name="department"
+                 placeholder="e.g. Computer Science" required>
+        </div>
+
+        <div class="field">
+          <label for="program">Program</label>
+          <input type="text" id="program" name="program"
+                 placeholder="e.g. BSc Computer Science" required>
+        </div>
+
+        <div class="field">
+          <label for="semester">Semester</label>
+          <select id="semester" name="semester" required>
+            <option value="">Select semester</option>
+            <option value="Spring 2026">Spring 2026</option>
+            <option value="Fall 2026">Fall 2026</option>
+            <option value="Spring 2027">Spring 2027</option>
+            <option value="Fall 2027">Fall 2027</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="graduated">Graduated</option>
+            <option value="suspended">Suspended</option>
+          </select>
+        </div>
+
+        <div class="field span-2">
+          <label for="address">Address</label>
+          <textarea id="address" name="address"
+                    placeholder="Student's current address…"></textarea>
+        </div>
+
+        <div class="field span-2">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes"
+                    placeholder="Additional notes about the student…"></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          Save Student
+        </button>
+
+        <a href="{% url 'students:student_list' %}" class="btn btn-ghost">
+          Cancel
+        </a>
+      </div>
+
+    </form>
+  </div>
+</main>
+{% endblock %}

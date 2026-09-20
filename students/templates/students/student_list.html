@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}Student List · Greenfield School{% endblock %}
+
+{% block page %}students{% endblock %}
+
+{% block content %}
+
+<!-- ===== Page content ===== -->
+<main>
+
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Student records</p>
+      <h1>All Students</h1>
+      <p class="lede">
+        Browse, search and manage every student on record.
+      </p>
+    </div>
+
+    <a href="{% url 'students:add_students' %}" class="btn btn-primary">
+      + Add New Student
+    </a>
+  </div>
+
+
+  <!-- ===== Search & Filters ===== -->
+  <div class="toolbar">
+
+    <input
+      type="search"
+      id="student-search-input"
+      class="search-input"
+      placeholder="Search by ID, name or email…"
+    >
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+      <select id="student-dept-filter" class="filter-select">
+        <option value="">All departments</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="History">History</option>
+        <option value="Fine Arts">Fine Arts</option>
+      </select>
+
+      <select id="student-status-filter" class="filter-select">
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===== Student Table ===== -->
+  <div class="table-wrap">
+
+    <table class="catalog">
+
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Student Name</th>
+          <th>Department</th>
+          <th>Semester</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody id="students-body">
+
+        <!-- Student 1 -->
+        {% for student in students %}
+        <tr
+          data-search="stu-001 john anderson john.anderson@greenfield.edu"
+          data-dept="Computer Science"
+          data-status="active"
+        >
+
+          <td data-label="Student ID">
+            <a href="{% url 'students:student_details' %}">
+              <span class="stamp">{{ student.student_id }}</span>
+            </a>
+          </td>
+
+          <td data-label="Student Name" class="course-name">
+            <a
+              href="{% url 'students:student_details' %}"
+              style="color:inherit; text-decoration:none;"
+            >
+              {{ student.first_name }} {{ student.last_name }}
+            </a>
+          </td>
+
+          <td data-label="Department" class="course-dept">
+            {{ student.department }}
+          </td>
+
+          <td data-label="Semester">
+            {{ student.semester }}
+          </td>
+
+          <td data-label="Email">
+            {{ student.email }}
+          </td>
+
+          <td data-label="Status">
+            <span class="pill active">{{student.status}}</span>
+          </td>
+
+          <td data-label="">
+            <div class="row-actions">
+              <a
+                class="btn btn-ghost btn-sm"
+                href="{% url 'students:edit_student' student.id %}"
+              >
+                Edit
+              </a>
+
+           <form
+  method="POST"
+  action="{% url 'students:delete_student' student.id %}"
+  style="display:inline;"
+  onsubmit="return confirm('Are you sure you want to delete this student?');"
+>
+  {% csrf_token %}
+
+  <button
+    type="submit"
+    class="btn btn-danger btn-sm"
+  >
+    Delete
+  </button>
+</form>
+            </div>
+          </td>
+
+        </tr>
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+
+    <!-- ===== Empty State ===== -->
+    <div class="empty-state" id="student-empty-state" style="display:none;">
+      <h3>No students match</h3>
+      <p>
+        Try a different search term or clear the filters.
+      </p>
+    </div>
+
+  </div>
+
+</main>
+
+{% endblock %}

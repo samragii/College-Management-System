@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student List · Student Records ·  Mahendra Morang Adarsh Muntiple Campus</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body data-page="students">
+
+<header class="site-header">
+
+  <div class="header-top">
+
+    <a class="brand" href="{% url 'index' %}">
+      <span class="brand-mark">GFS</span>
+
+      <span>
+        <div class="brand-name"> Mahendra Morang Adarsh Muntiple Campus</div>
+        <div class="brand-sub">Student Records</div>
+      </span>
+    </a>
+
+    <div class="header-meta">
+      Registrar's Office<br>
+      Signed in as <strong style="color:#F2F0E8">A. Reyes</strong>
+    </div>
+
+  </div>
+
+  <nav class="catalog-tabs">
+    <a href="{% url 'index' %}" data-tab="dashboard">Dashboard</a>
+    <a href="{% url 'students' %}" data-tab="students">Student List</a>
+    <a href="{% url 'add_student' %}" data-tab="add-student">Add Student</a>
+  </nav>
+
+</header>
+
+<main>
+
+  <div class="page-head">
+
+    <div>
+      <p class="eyebrow">Full student list</p>
+
+      <h1>All Students</h1>
+
+      <p class="lede">
+        Browse, search and manage every student on record.
+      </p>
+    </div>
+
+    <a href="{% url 'add_student' %}" class="btn btn-primary">
+      + Add New Student
+    </a>
+
+  </div>
+
+  <div class="toolbar">
+
+    <input
+      type="search"
+      id="search-input"
+      class="search-input"
+      placeholder="Search by ID, name or department…"
+    >
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+      <select id="dept-filter" class="filter-select">
+
+        <option value="">All departments</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="History">History</option>
+
+      </select>
+
+      <select id="status-filter" class="filter-select">
+
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <div class="table-wrap">
+
+    <table class="catalog">
+
+      <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Student</th>
+          <th>Department</th>
+          <th>Semester</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+
+      </thead>
+
+      <tbody id="students-body">
+
+        <tr
+          data-search="stu-001 samragi neupane computer science"
+          data-dept="Computer Science"
+          data-status="active"
+        >
+
+          <td data-label="ID">
+            <a href="{% url 'student_details' %}">
+              <span class="stamp">STU-001</span>
+            </a>
+          </td>
+
+          <td data-label="Student" class="course-name">
+            <a
+              href="{% url 'student_details' %}"
+              style="color:inherit; text-decoration:none;"
+            >
+              Samragi Neupane
+            </a>
+          </td>
+
+          <td data-label="Department" class="course-dept">
+            Computer Science
+          </td>
+
+          <td data-label="Semester">
+            Fifth Semester
+          </td>
+
+          <td data-label="Status">
+            <span class="pill active">Active</span>
+          </td>
+
+          <td data-label="">
+            <div class="row-actions">
+
+              <a
+                class="btn btn-ghost btn-sm"
+                href="{% url 'add_student' %}"
+              >
+                Edit
+              </a>
+
+              <button
+                class="btn btn-danger btn-sm"
+                data-delete="Samragi Neupane"
+              >
+                Delete
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+
+        <tr
+          data-search="stu-002 anisha sharma mathematics"
+          data-dept="Mathematics"
+          data-status="active"
+        >
+
+          <td data-label="ID">
+            <a href="{% url 'student_details' %}">
+              <span class="stamp">STU-002</span>
+            </a>
+          </td>
+
+          <td data-label="Student" class="course-name">
+            <a
+              href="{% url 'student_details' %}"
+              style="color:inherit; text-decoration:none;"
+            >
+              Anisha Sharma
+            </a>
+          </td>
+
+          <td data-label="Department" class="course-dept">
+            Mathematics
+          </td>
+
+          <td data-label="Semester">
+            Fourth Semester
+          </td>
+
+          <td data-label="Status">
+            <span class="pill active">Active</span>
+          </td>
+
+          <td data-label="">
+            <div class="row-actions">
+
+              <a
+                class="btn btn-ghost btn-sm"
+                href="{% url 'add_student' %}"
+              >
+                Edit
+              </a>
+
+              <button
+                class="btn btn-danger btn-sm"
+                data-delete="Anisha Sharma"
+              >
+                Delete
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+
+        <tr
+          data-search="stu-003 rohan thapa physics"
+          data-dept="Physics"
+          data-status="inactive"
+        >
+
+          <td data-label="ID">
+            <a href="{% url 'student_details' %}">
+              <span class="stamp">STU-003</span>
+            </a>
+          </td>
+
+          <td data-label="Student" class="course-name">
+            <a
+              href="{% url 'student_details' %}"
+              style="color:inherit; text-decoration:none;"
+            >
+              Rohan Thapa
+            </a>
+          </td>
+
+          <td data-label="Department" class="course-dept">
+            Physics
+          </td>
+
+          <td data-label="Semester">
+            Third Semester
+          </td>
+
+          <td data-label="Status">
+            <span class="pill inactive">Inactive</span>
+          </td>
+
+          <td data-label="">
+            <div class="row-actions">
+
+              <a
+                class="btn btn-ghost btn-sm"
+                href="{% url 'add_student' %}"
+              >
+                Edit
+              </a>
+
+              <button
+                class="btn btn-danger btn-sm"
+                data-delete="Rohan Thapa"
+              >
+                Delete
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+
+        <tr
+          data-search="stu-004 priya rai english"
+          data-dept="English"
+          data-status="active"
+        >
+
+          <td data-label="ID">
+            <a href="{% url 'student_details' %}">
+              <span class="stamp">STU-004</span>
+            </a>
+          </td>
+
+          <td data-label="Student" class="course-name">
+            <a
+              href="{% url 'student_details' %}"
+              style="color:inherit; text-decoration:none;"
+            >
+              Priya Rai
+            </a>
+          </td>
+
+          <td data-label="Department" class="course-dept">
+            English
+          </td>
+
+          <td data-label="Semester">
+            Second Semester
+          </td>
+
+          <td data-label="Status">
+            <span class="pill active">Active</span>
+          </td>
+
+          <td data-label="">
+            <div class="row-actions">
+
+              <a
+                class="btn btn-ghost btn-sm"
+                href="{% url 'add_student' %}"
+              >
+                Edit
+              </a>
+
+              <button
+                class="btn btn-danger btn-sm"
+                data-delete="Priya Rai"
+              >
+                Delete
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+
+        <tr
+          data-search="stu-005 arjun karki computer science"
+          data-dept="Computer Science"
+          data-status="active"
+        >
+
+          <td data-label="ID">
+            <a href="{% url 'student_details' %}">
+              <span class="stamp">STU-005</span>
+            </a>
+          </td>
+
+          <td data-label="Student" class="course-name">
+            <a
+              href="{% url 'student_details' %}"
+              style="color:inherit; text-decoration:none;"
+            >
+              Arjun Karki
+            </a>
+          </td>
+
+          <td data-label="Department" class="course-dept">
+            Computer Science
+          </td>
+
+          <td data-label="Semester">
+            Fifth Semester
+          </td>
+
+          <td data-label="Status">
+            <span class="pill active">Active</span>
+          </td>
+
+          <td data-label="">
+            <div class="row-actions">
+
+              <a
+                class="btn btn-ghost btn-sm"
+                href="{% url 'add_student' %}"
+              >
+                Edit
+              </a>
+
+              <button
+                class="btn btn-danger btn-sm"
+                data-delete="Arjun Karki"
+              >
+                Delete
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <div
+      class="empty-state"
+      id="empty-state"
+      style="display:none;"
+    >
+      <h3>No students match</h3>
+      <p>Try a different search term or clear the filters.</p>
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="site-footer">
+
+  <div class="footer-inner">
+
+    <span>
+      &copy; <span id="footer-year"></span>
+       Mahendra Morang Adarsh Muntiple Campus · Registrar's Office
+    </span>
+
+    <span class="footer-links">
+      <a href="{% url 'index' %}">Dashboard</a>
+      <a href="{% url 'students' %}">Students</a>
+      <a href="{% url 'add_student' %}">Add Student</a>
+    </span>
+
+    <span class="footer-stamp">
+      STATIC DEMO DATA
+    </span>
+
+  </div>
+
+</footer>
+
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
+

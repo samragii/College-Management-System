@@ -1,0 +1,14 @@
+<!-- student_detail.html -->
+  {% extends 'base.html' %}
+  
+  {% block content %}
+      <div class="student-profile">
+          <h1>{{ student.name }}</h1>
+          <div class="details">
+              <p><strong>Age:</strong> {{ student.phone }}</p>
+              <p><strong>Email:</strong> {{ student.email }}</p>
+              <p><strong>Course:</strong> {{ student.course }}</p>
+              <p><strong>Enrolled:</strong> {{ student.enrolled_date }}</p>
+          </div>         
+      </div>
+  {% endblock %}

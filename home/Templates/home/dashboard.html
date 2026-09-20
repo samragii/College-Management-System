@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard · MMAMC{% endblock %}
+
+{% block content %}
+
+<main class="dashboard">
+
+
+<header class="dashboard-header">
+    <p class="eyebrow">MMAMC</p>
+
+    <h1>Welcome, {{ request.user.username }}</h1>
+
+    <p>
+        Welcome to your college dashboard.
+    </p>
+</header>
+
+
+<section class="dashboard-grid">
+
+    <a href="#" class="dashboard-card">
+        <h2>📚 My Courses</h2>
+        <p>View your enrolled courses.</p>
+    </a>
+
+    <a href="#" class="dashboard-card">
+        <h2>👩‍🏫 My Teachers</h2>
+        <p>View your teachers and course information.</p>
+    </a>
+
+    <a href="#" class="dashboard-card">
+        <h2>👤 My Profile</h2>
+        <p>View and update your profile.</p>
+    </a>
+
+</section>
+
+
+</main>
+
+{% endblock %}

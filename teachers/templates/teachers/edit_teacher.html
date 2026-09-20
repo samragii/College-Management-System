@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Teacher · Teacher Directory · Greenfield School{% endblock %}
+
+{% block page %}edit-teacher{% endblock %}
+
+{% block content %}
+
+<main>
+
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Update entry</p>
+      <h1>Edit Teacher</h1>
+      <p class="lede">
+        Update the details below to modify this teacher.
+      </p>
+    </div>
+  </div>
+
+  <div class="card card-pad">
+
+    <form method="POST">
+
+      {% csrf_token %}
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label for="first_name">First name</label>
+          <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            value="{{ teacher.first_name }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="last_name">Last name</label>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            value="{{ teacher.last_name }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="{{ teacher.email }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value="{{ teacher.phone }}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="department">Department</label>
+          <input
+            type="text"
+            id="department"
+            name="department"
+            value="{{ teacher.department }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="position">Position</label>
+          <input
+            type="text"
+            id="position"
+            name="position"
+            value="{{ teacher.position }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="qualification">Qualification</label>
+          <input
+            type="text"
+            id="qualification"
+            name="qualification"
+            value="{{ teacher.qualification }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="experience">Experience</label>
+          <input
+            type="number"
+            id="experience"
+            name="experience"
+            value="{{ teacher.experience }}"
+            min="0"
+            max="60"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="joining_date">Joining date</label>
+          <input
+            type="date"
+            id="joining_date"
+            name="joining_date"
+            value="{{ teacher.joining_date|date:'Y-m-d' }}"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+
+          <select id="status" name="status" required>
+
+            <option value="active"
+              {% if teacher.status == "active" %}selected{% endif %}>
+              Active
+            </option>
+
+            <option value="inactive"
+              {% if teacher.status == "inactive" %}selected{% endif %}>
+              Inactive
+            </option>
+
+            <option value="on_leave"
+              {% if teacher.status == "on_leave" %}selected{% endif %}>
+              On Leave
+            </option>
+
+          </select>
+        </div>
+
+        <div class="field span-2">
+          <label for="bio">Biography</label>
+
+          <textarea
+            id="bio"
+            name="bio"
+            placeholder="Short summary of the teacher's background..."
+          >{{ teacher.bio }}</textarea>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Update Teacher
+        </button>
+
+        <a
+          href="{% url 'teachers:teachers' %}"
+          class="btn btn-ghost"
+        >
+          Cancel
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</main>
+
+{% endblock %}
