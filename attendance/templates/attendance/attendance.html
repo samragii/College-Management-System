@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance · MMAMC{% endblock %}
+
+{% block page %}attendance{% endblock %}
+
+{% block content %}
+
+<main>
+<!-- Page Header -->
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Student Management</p>
+        <h1>Attendance</h1>
+        <p class="lede">
+            Record and manage student attendance.
+        </p>
+    </div>
+</div>
+
+
+<!-- Filters -->
+<section class="attendance-filters">
+
+    <form method="GET">
+
+        <div class="filter-group">
+
+            <div class="filter-field">
+                <label for="semester">Semester</label>
+
+                <select name="semester" id="semester">
+                    <option value="">All Semesters</option>
+
+                    {% for semester in semesters %}
+                        <option value="{{ semester }}"
+                            {% if selected_semester == semester %}selected{% endif %}>
+                            {{ semester }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+
+            <div class="filter-field">
+                <label for="batch">Batch</label>
+
+                <select name="batch" id="batch">
+                    <option value="">All Batches</option>
+
+                    {% for batch in batches %}
+                        <option value="{{ batch }}"
+                            {% if selected_batch == batch %}selected{% endif %}>
+                            {{ batch }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+
+            <div class="filter-field">
+                <label for="date">Attendance Date</label>
+
+                <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value="{{ selected_date }}"
+                >
+            </div>
+
+
+            <div class="filter-action">
+                <button type="submit">
+                    Filter Students
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+<!-- Attendance Form -->
+<section class="attendance-section">
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            name="attendance_date"
+            value="{{ selected_date }}"
+        >
+
+
+        <div class="section-header">
+
+            <div>
+                <h2>Student List</h2>
+
+                <p>
+                    {{ students|length }} students found
+                </p>
+            </div>
+
+            <button type="submit" class="save-attendance">
+                Save Attendance
+            </button>
+
+        </div>
+
+
+        <!-- Student Table -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Semester</th>
+                        <th>Batch</th>
+                        <th>Attendance</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>
+                            {{ student.student_id }}
+                        </td>
+
+                        <td>
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+                        </td>
+
+                        <td>
+                            {{ student.semester }}
+                        </td>
+
+                        <td>
+                            {{ student.batch }}
+                        </td>
+
+                        <td>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="status_{{ student.id }}"
+                                    value="present"
+                                    {% if attendance_status|get_item:student.id == "present" %}
+                                        checked
+                                    {% endif %}
+                                >
+                                Present
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="status_{{ student.id }}"
+                                    value="absent"
+                                    {% if attendance_status|get_item:student.id == "absent" %}
+                                        checked
+                                    {% endif %}
+                                >
+                                Absent
+                            </label>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="5">
+                            No students found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </form>
+
+</section>
+
+</main>
+
+{% endblock %}

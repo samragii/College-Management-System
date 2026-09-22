@@ -92,6 +92,7 @@ def add_students(request):
             department=request.POST.get("department"),
             program=request.POST.get("program"),
             semester=request.POST.get("semester"),
+            batch=request.POST.get("batch"),
             status=request.POST.get("status"),
             address=request.POST.get("address"),
             notes=request.POST.get("notes"),
@@ -117,6 +118,7 @@ def edit_student(request, student_id):
         student.department = request.POST.get("department")
         student.program = request.POST.get("program")
         student.semester = request.POST.get("semester")
+        student.batch = request.POST.get("batch")
         student.status = request.POST.get("status")
         student.address = request.POST.get("address")
         student.notes = request.POST.get("notes")
@@ -166,6 +168,7 @@ class StudentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         'date_of_birth',
         'department',
         'semester',
+        'batch',
         'program',
         'status',
         'address',

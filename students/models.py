@@ -35,6 +35,12 @@ class Student(models.Model):
         max_length=20,
         choices=SEMESTER_CHOICES
     )
+    
+    batch = models.CharField(
+    max_length=20,
+    blank=True,
+    null=True
+)
 
     status = models.CharField(
         max_length=20,
@@ -53,3 +59,5 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.student_id} - {self.first_name} {self.last_name}"
+    
+    
