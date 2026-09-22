@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'tasks',
+    'attendance',
 ]
 SPECTACULAR_SETTINGS = {
     'TITLE':'My API',
