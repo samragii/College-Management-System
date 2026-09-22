@@ -1,213 +1,249 @@
 {% extends 'base.html' %}
 
-{% block title %}Attendance · MMAMC{% endblock %}
-
+{% block title %}Attendance{% endblock %}
 {% block page %}attendance{% endblock %}
 
 {% block content %}
 
 <main>
-<!-- Page Header -->
-<div class="page-head">
+
+  <div class="page-head">
     <div>
-        <p class="eyebrow">Student Management</p>
-        <h1>Attendance</h1>
-        <p class="lede">
-            Record and manage student attendance.
-        </p>
+      <p class="eyebrow">Student Management</p>
+      <h1>Attendance</h1>
+      <p class="lede">
+        Filter students and mark their attendance.
+      </p>
     </div>
-</div>
+  </div>
 
 
-<!-- Filters -->
-<section class="attendance-filters">
+  <!-- Filters -->
+  <div class="card card-pad">
 
     <form method="GET">
 
-        <div class="filter-group">
+      <div class="form-grid">
 
-            <div class="filter-field">
-                <label for="semester">Semester</label>
+        <!-- Semester -->
+        <div class="field">
+          <label for="semester">Semester</label>
 
-                <select name="semester" id="semester">
-                    <option value="">All Semesters</option>
+          <select name="semester" id="semester">
+            <option value="">All Semesters</option>
 
-                    {% for semester in semesters %}
-                        <option value="{{ semester }}"
-                            {% if selected_semester == semester %}selected{% endif %}>
-                            {{ semester }}
-                        </option>
-                    {% endfor %}
+            {% for value, label in semesters %}
+              <option value="{{ value }}"
+                {% if semester == value %}selected{% endif %}>
+                {{ label }}
+              </option>
+            {% endfor %}
 
-                </select>
-            </div>
-
-
-            <div class="filter-field">
-                <label for="batch">Batch</label>
-
-                <select name="batch" id="batch">
-                    <option value="">All Batches</option>
-
-                    {% for batch in batches %}
-                        <option value="{{ batch }}"
-                            {% if selected_batch == batch %}selected{% endif %}>
-                            {{ batch }}
-                        </option>
-                    {% endfor %}
-
-                </select>
-            </div>
-
-
-            <div class="filter-field">
-                <label for="date">Attendance Date</label>
-
-                <input
-                    type="date"
-                    name="date"
-                    id="date"
-                    value="{{ selected_date }}"
-                >
-            </div>
-
-
-            <div class="filter-action">
-                <button type="submit">
-                    Filter Students
-                </button>
-            </div>
-
+          </select>
         </div>
+
+
+        <!-- Batch -->
+        <div class="field">
+          <label for="batch">Batch</label>
+
+          <select name="batch" id="batch">
+
+            <option value="">All Batches</option>
+
+            {% for item in batches %}
+              <option value="{{ item }}"
+                {% if batch == item %}selected{% endif %}>
+                {{ item }}
+              </option>
+            {% endfor %}
+
+          </select>
+        </div>
+
+
+        <!-- Date -->
+        <div class="field">
+          <label for="date">Attendance Date</label>
+
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value="{{ selected_date }}"
+          >
+        </div>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button type="submit" class="btn btn-primary">
+          Filter Students
+        </button>
+
+        <a
+          href="{% url 'attendance:attendance_page' %}"
+          class="btn btn-ghost"
+        >
+          Clear
+        </a>
+
+      </div>
 
     </form>
 
-</section>
+  </div>
 
 
-<!-- Attendance Form -->
-<section class="attendance-section">
+  <!-- Student Attendance -->
+  <div class="card card-pad">
 
-    <form method="POST">
+    <div class="page-head">
+      <div>
+        <h2>Student List</h2>
+
+        <p class="lede">
+          {{ students|length }} student{{ students|length|pluralize }}
+          found.
+        </p>
+      </div>
+    </div>
+
+
+    {% if students %}
+
+      <form method="POST">
 
         {% csrf_token %}
 
+        <!-- Keep filters when submitting attendance -->
         <input
-            type="hidden"
-            name="attendance_date"
-            value="{{ selected_date }}"
+          type="hidden"
+          name="semester"
+          value="{{ semester }}"
+        >
+
+        <input
+          type="hidden"
+          name="batch"
+          value="{{ batch }}"
+        >
+
+        <input
+          type="hidden"
+          name="attendance_date"
+          value="{{ selected_date }}"
         >
 
 
-        <div class="section-header">
+        <div class="table-wrap">
 
-            <div>
-                <h2>Student List</h2>
+          <table>
 
-                <p>
-                    {{ students|length }} students found
-                </p>
-            </div>
-
-            <button type="submit" class="save-attendance">
-                Save Attendance
-            </button>
-
-        </div>
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Semester</th>
+                <th>Batch</th>
+                <th>Status</th>
+              </tr>
+            </thead>
 
 
-        <!-- Student Table -->
+            <tbody>
 
-        <div class="table-container">
+              {% for student in students %}
 
-            <table>
+                <tr>
 
-                <thead>
+                  <td>
+                    {{ student.student_id }}
+                  </td>
 
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Student Name</th>
-                        <th>Semester</th>
-                        <th>Batch</th>
-                        <th>Attendance</th>
-                    </tr>
+                  <td>
+                    {{ student.first_name }}
+                    {{ student.last_name }}
+                  </td>
 
-                </thead>
+                  <td>
+                    {{ student.semester }}
+                  </td>
 
+                  <td>
+                    {{ student.batch }}
+                  </td>
 
-                <tbody>
+                  <td>
 
-                    {% for student in students %}
-
-                    <tr>
-
-                        <td>
-                            {{ student.student_id }}
-                        </td>
-
-                        <td>
-                            {{ student.first_name }}
-                            {{ student.last_name }}
-                        </td>
-
-                        <td>
-                            {{ student.semester }}
-                        </td>
-
-                        <td>
-                            {{ student.batch }}
-                        </td>
-
-                        <td>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="status_{{ student.id }}"
-                                    value="present"
-                                    {% if attendance_status|get_item:student.id == "present" %}
-                                        checked
-                                    {% endif %}
-                                >
-                                Present
-                            </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="status_{{ student.id }}"
+                        value="present"
+                        {% if student.attendance_status == "present" %}
+                          checked
+                        {% endif %}
+                      >
+                      Present
+                    </label>
 
 
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="status_{{ student.id }}"
-                                    value="absent"
-                                    {% if attendance_status|get_item:student.id == "absent" %}
-                                        checked
-                                    {% endif %}
-                                >
-                                Absent
-                            </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="status_{{ student.id }}"
+                        value="absent"
+                        {% if student.attendance_status == "absent" %}
+                          checked
+                        {% endif %}
+                      >
+                      Absent
+                    </label>
 
-                        </td>
+                  </td>
 
-                    </tr>
+                </tr>
 
-                    {% empty %}
+              {% endfor %}
 
-                    <tr>
-                        <td colspan="5">
-                            No students found.
-                        </td>
-                    </tr>
+            </tbody>
 
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
+          </table>
 
         </div>
 
-    </form>
 
-</section>
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            Update Attendance
+          </button>
+
+        </div>
+
+      </form>
+
+    {% else %}
+
+      <div class="empty-state">
+
+        <h3>No students found</h3>
+
+        <p>
+          Try changing the semester or batch filter.
+        </p>
+
+      </div>
+
+    {% endif %}
+
+  </div>
 
 </main>
 
