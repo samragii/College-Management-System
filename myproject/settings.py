@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'tasks',
     'attendance',
+    'enrollment',
 ]
 SPECTACULAR_SETTINGS = {
     'TITLE':'My API',
