@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 from django.db import models
 
@@ -11,6 +11,13 @@ class Student(models.Model):
         ("graduated", "Graduated"),
         ("suspended", "Suspended"),
     ]
+    user = models.OneToOneField(
+    User,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="student_profile"
+)
 
     SEMESTER_CHOICES = [
         ("Spring 2026", "Spring 2026"),
