@@ -3,13 +3,13 @@ from .models import Teacher
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Teacher
-from django.contrib.auth.decorators import login_required
+from accounts.decorator import teacher_required
 # Create your views here.
 from django.shortcuts import render
 from django.http import HttpResponse
 
 # Create your views here.
-@login_required
+@teacher_required
 def teachers_list(request):
     teachers = Teacher.objects.all()
 
@@ -18,13 +18,13 @@ def teachers_list(request):
     }
 
     return render(request, 'teachers/teacher_list.html', context)
-@login_required
+@teacher_required
 def teachers_detail(request,teacher_id):
     return render(request, 'teachers/teacher_detail.html')
-@login_required
+@teacher_required
 def teachers_home(request):
     return render(request, 'teachers/home.html')
-@login_required
+@teacher_required
 def index(request):
     teachers_list =Teacher.objects.all()
     active_teacher=teachers_list.filter(status='active')
@@ -40,7 +40,7 @@ def index(request):
    
         }
     return render(request, 'teachers/index.html')
-@login_required
+@teacher_required
 def add_teachers(request):
     if request.method == "POST":
         Teacher.objects.create(
@@ -61,7 +61,7 @@ def add_teachers(request):
 
     return render(request, 'teachers/add_teacher.html')
 
-@login_required
+@teacher_required
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
 
@@ -89,7 +89,7 @@ def edit_teacher(request, teacher_id):
     )
 
 
-@login_required
+@teacher_required
 def delete_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
 
@@ -102,7 +102,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import TeacherSerializer
-
+@teacher_required
 @api_view(['GET', 'POST'])
 def teacher_lists(request):
     if request.method == 'GET':
