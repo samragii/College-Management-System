@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from accounts.decorator import course_manager_required
 from .models import Course
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
@@ -28,7 +29,7 @@ def course_details(request, course_id):
         {"course": course}
     )
 
-@login_required
+@course_manager_required
 def edit_course(request, course_id):
 
     course = get_object_or_404(
@@ -68,13 +69,15 @@ def edit_course(request, course_id):
         context
     )
 
-@login_required
+@course_manager_required
 def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
-    course.delete()
+    if request.method == "POST":
+        course.delete()
 
     return redirect("courses:courses")
+
 
 @login_required
 def index(request):
@@ -104,7 +107,7 @@ def index(request):
         context
     )
 
-@login_required
+@course_manager_required
 def add_course(request):
     courses = Course.objects.filter(status="active")
 
