@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Student
+from accounts.decorator import course_manager_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -77,7 +78,7 @@ def index(request):
 def student_detail(request):
     return render(request, 'students/student_details.html')
 
-@login_required
+@course_manager_required
 def add_students(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -104,7 +105,7 @@ def add_students(request):
 
     return render(request, "students/add_student.html")
 
-@login_required
+@course_manager_required
 def edit_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
 
@@ -133,7 +134,7 @@ def edit_student(request, student_id):
         {"student": student}
     )
 
-@login_required
+@course_manager_required
 def delete_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
 
@@ -183,13 +184,15 @@ class StudentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             name="Teacher"
         ).exists()
         
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Student
 from .serializers import StudentSerializer
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def student_lists(request):
     if request.method == 'GET':
         students = Student.objects.all()
